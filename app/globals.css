@@ -100,6 +100,11 @@ dialog::backdrop { background: #1d2f2a99; backdrop-filter: blur(3px); }
 .checkin-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
 .checkin-heading > .badge { white-space: nowrap; margin-top: 8px; }
 .checkin-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
+.care-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: start; margin-top: 28px; }
+.care-reasons { padding-left: 20px; font-size: 13px; margin: 20px 0; }
+.care-reasons li { margin: 8px 0; }
+.plain-dialog { background: #fffefa; color: var(--foreground); border-color: var(--line); }
+@media (max-width: 700px) { .care-grid { grid-template-columns: 1fr; } }
 .sleep-row { display: flex; gap: 15px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 12px 0; }
 .small-step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .reason { border-top: 1px solid #d3decd; padding: 15px 0; }
