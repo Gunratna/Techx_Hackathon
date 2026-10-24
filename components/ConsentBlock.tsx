@@ -1,7 +1,7 @@
 "use client";
 export const CONSENT_ITEMS = [
-  "My profile, check-ins and preferences stay in this browser. Clearing browser storage removes them.",
-  "This version uses local templates. My notes are not sent to an AI provider or cloud database.",
+  "My profile, check-ins and preferences stay in this tab’s memory. Refreshing or closing the page clears them.",
+  "When I submit, my notes are processed briefly by this app’s stateless API using limited rules and templates. No AI provider or database is used.",
   "If I choose to open a map or search with my location, that information is shared with Google.",
   "This offers options for support. It does not give a medical assessment or replace a professional.",
   "This is not a crisis service. The “Need help now?” button opens phone numbers for immediate support.",
