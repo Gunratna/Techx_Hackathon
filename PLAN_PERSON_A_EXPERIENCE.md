@@ -4,6 +4,8 @@
 > Repo: https://github.com/Gunratna/Techx_Hackathon. **Your branch: `a/experience`**. Partner's branch: `b/intelligence`.
 > This document is self-contained. If you are a coding agent (Codex etc.), you have NO other context: everything you need is here.
 > Your partner (Person B) has a twin document with the same Parts 1–4 and different Part 5 tasks. Parts 1–4 are identical in both docs; Part 5 is yours alone.
+> Laptop handoff: finish intelligence on `b/intelligence`, then integrate both branches into `main` on the receiving laptop. Do not merge from this session. Shared dependency cleanup was approved for this handoff branch. Read `HANDOFF_PERSON_B.md`.
+> Scope updated 24 Oct 2026 by the owner: no AI service and no database service in this MVP. Use deterministic rules/templates, browser memory for personal state, and bundled JSON for providers. AI assistance is a future proposal only.
 > Working name "MannSetu" is a placeholder. The app name lives ONLY in `lib/brand.ts` so it can be renamed in one line (name options in §1.8).
 
 ---
@@ -47,21 +49,21 @@ The flow, in five steps:
 2. Tap **[I'm struggling]** → **Care Path**: "This has been different from your usual on 4 of the last 7 days → talking to a counsellor could help." Tele-MANAS (free) is shown alongside paid options.
 3. **Find Help**: real Google Maps results near the venue, ranked by her language/budget/mode, with "Why this match" chips, "Confirm by phone: fee, language" and "⚠ Credentials not verified, check RCI".
 4. **[Prepare for this]** → **Session Bridge**: a one-page brief in her own words plus a Tamil call script → edit a line → Print.
-5. Type a crisis phrase → the hard-coded crisis panel appears instantly ("the AI can never switch this off").
+5. Type a crisis phrase → the hard-coded crisis panel appears instantly ("the learning engine can never switch this off").
 
 ## 1.5 Non-negotiable rules (both people enforce)
 | Rule | How |
 |---|---|
 | 18+ only | Age gate. Under 18 → exit screen showing Tele-MANAS 14416. |
-| Consent first | Consent screen covers: check-ins stay in this browser; check-in text is sent to an AI provider for analysis; location is sent to Google for place search; not a diagnosis; not a crisis service. |
-| No judgement, no diagnosis | Banned in UI copy and LLM output: depressed, depression, disorder, diagnosis, risk score, suicidal, "you need". Use: "different from your usual", "might help", "options that fit you". |
-| Crisis always reachable | A "Need help now?" button in the header on every page. Crisis state = deterministic keyword match OR the LLM saying `urgent`. The model can only escalate, never de-escalate. Crisis text is hard-coded, never generated. |
+| Consent first | Consent screen covers: personal state stays in this browser tab memory and clears on reload; notes are processed transiently by our own stateless API using deterministic rules, with no AI provider; location is sent to Google for place search; not a diagnosis; not a crisis service. |
+| No judgement, no diagnosis | Banned in UI copy and generated output: depressed, depression, disorder, diagnosis, risk score, suicidal, "you need". Use: "different from your usual", "might help", "options that fit you". |
+| Crisis always reachable | A "Need help now?" button in the header on every page. Crisis state = deterministic keyword matching. Learned weights and feedback can never disable an urgent keyword match. Crisis text is hard-coded, never generated. |
 | Explain every flag | Top 3 reasons, each with exact quotes from the user's own notes. |
 | User owns the model | Learned signs are visible, editable and deletable. Every flag gets [I'm struggling] / [I'm fine] feedback. |
 | Nothing auto-sent | Session Bridge, call scripts and trusted-person suggestions only work through user copy/print/tap. |
 | Fit, not pay-to-rank | Ranking is a deterministic fit score. No paid placement, ever. |
 | Credential honesty | Google results get the "Credentials not verified" badge plus RCI/NMC links. Fictional curated listings get the "Demo listing" badge. |
-| Personal data stays on device | Profile, check-ins and model weights live in browser localStorage. API routes are stateless and log no content. A "Delete all my data" button exists. Supabase holds ONLY the provider directory (no user data in the MVP). |
+| Personal data stays on device | Profile, check-ins and model weights live in browser memory only, with no persistence across reloads. API routes are stateless and log no content. A "Delete all my data" button exists. The provider directory is bundled JSON; no database service is used. |
 | Google data rules | Don't persist Google place content (only place IDs may be stored). Show "Results from Google Maps" attribution. |
 | Synthetic demo data | "Ananya" is fictional and labelled as such. |
 
@@ -98,21 +100,18 @@ Check domain, Play Store and trademark collisions before committing. Avoid names
 
 ## 2.1 Stack (fixed; don't debate during the event)
 - **Next.js 15 (App Router) + TypeScript + Tailwind**, one app (frontend + API routes).
-- `zod` (validate all LLM/API output), `recharts` (charts), `@anthropic-ai/sdk` (LLM), `@supabase/supabase-js` (provider directory).
-- **LLM:** Anthropic Claude, model `claude-sonnet-5-5`, isolated in `lib/llm.ts` (swappable).
+- `zod` (validate API inputs/outputs), `recharts` (charts). No AI or database SDK is required.
+- **Analysis:** inspectable TypeScript phrase rules, keyword safety, and local templates. No model-provider requests, prompts, or keys. Future AI features require a separate product/consent decision.
 - **Places:** Google **Places API (New) Text Search** called from a server route. Fallbacks: Maps Embed iframe → curated list.
 - **Voice:** browser Web Speech API (`en-IN`, `hi-IN`, `ta-IN`); demo in Chrome; typing is the fallback.
-- **User data:** browser localStorage. **Supabase:** only the `providers` table (+ optional `provider_applications`). If Supabase env vars are missing, fall back to `data/providers.json`.
+- **User data:** browser memory only, owned by Person A. **Provider data:** `data/providers.json`, read through `lib/directory.ts`. No database, schema, remote writes, or provider application storage.
 - **Deploy:** Render Web Service (Node) from the `main` branch.
 - **Seed script:** Python 3 + `requests` + `tqdm`.
 
 ## 2.2 Environment variables (`.env.example` committed; real values never committed)
 ```
-ANTHROPIC_API_KEY=            # server only
 GOOGLE_MAPS_API_KEY=          # server only; restrict to Places API (New)
 NEXT_PUBLIC_MAPS_EMBED_KEY=   # browser; restrict to Maps Embed API + HTTP referrers (localhost, *.onrender.com)
-SUPABASE_URL=                 # server only usage
-SUPABASE_ANON_KEY=            # server only usage (read providers; insert applications)
 ```
 Google keys need a Google Cloud project with billing enabled. Since March 2025 each SKU has its own free monthly cap (e.g. Text Search Pro 5,000/month, then ~$32 per 1,000), which is plenty for a demo. Requesting phone/website/rating fields bills at a pricier tier with a smaller free cap; fine for a demo. **Create the keys and test one call BEFORE the event.**
 
@@ -124,14 +123,13 @@ Techx_Hackathon/
 ├─ lib/
 │  ├─ types.ts   brand.ts                          # SHARED (T0, on main; change only by agreement)
 │  ├─ store.ts   speech.ts   api-client.ts         # A
-│  ├─ mock.ts    llm.ts   prompts.ts   safety.ts   supabase.ts   # B
+│  ├─ mock.ts    safety.ts   directory.ts   # B
 │  └─ engine/ index.ts features.ts model.ts nudge.ts care-router.ts fit.ts   # B (A imports from engine/index.ts only)
 ├─ app/
 │  ├─ layout.tsx page.tsx onboarding/ checkin/ care-path/ find-help/ bridge/ insights/ providers/join/   # A
 │  └─ api/ build-profile/ analyze-checkin/ learn/ places/ providers/ session-bridge/ suggest/ provider-apply/   # B
 ├─ components/                                      # A
 ├─ data/ providers.json  resources.json            # B
-├─ supabase/schema.sql  supabase/seed.sql          # B
 ├─ public/demo-user.json                           # B (seed output)
 └─ scripts/seed_demo_user.py                       # B
 ```
@@ -145,8 +143,8 @@ Techx_Hackathon/
   git clone https://github.com/Gunratna/Techx_Hackathon.git && cd Techx_Hackathon
   git rm README.md && git commit -m "remove placeholder readme"     # create-next-app refuses non-empty dirs with conflicting files
   npx create-next-app@latest . --ts --tailwind --app --eslint --src-dir=false --import-alias "@/*" --use-npm
-  npm i @anthropic-ai/sdk zod recharts @supabase/supabase-js
-  # edit package.json: "start": "next start -p ${PORT:-3000}"
+  npm i zod recharts
+  # edit package.json: "start": "next start" (Next reads PORT automatically; Windows/Linux compatible)
   git add -A && git commit -m "scaffold next app" && git push origin main
   ```
 - **T+5–10 (Person B, on main):** pull; add `lib/types.ts` (exactly §3), `lib/brand.ts`, `.env.example`, `render.yaml`, README, `docs/` (both plan files); push to `main`.
@@ -171,50 +169,17 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
-      - key: ANTHROPIC_API_KEY
-        sync: false
       - key: GOOGLE_MAPS_API_KEY
         sync: false
       - key: NEXT_PUBLIC_MAPS_EMBED_KEY
         sync: false
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_ANON_KEY
-        sync: false
 ```
 Steps: Render dashboard → New → Blueprint → connect the repo → fill the env vars → deploy. Add the `*.onrender.com` URL to the Maps Embed key's HTTP-referrer restriction. `NEXT_PUBLIC_*` vars are baked in at build time, so redeploy after changing them. Free instances sleep when idle: **open the URL 5 minutes before the demo**. Keep `npm run dev` on a laptop as a backup.
 
-## 2.6 Supabase (provider directory only)
-`supabase/schema.sql` (Person B runs it in the Supabase SQL editor):
-```sql
-create table if not exists providers (
-  id text primary key,
-  source text not null check (source in ('national','curated')),
-  name text not null,
-  kind text not null check (kind in ('helpline','counsellor','psychologist','psychiatrist','hospital','emergency')),
-  care_levels int[] not null,
-  address text, city text, lat double precision, lng double precision,
-  phone text, website text, maps_url text,
-  languages text[] default '{}', modes text[] default '{}', gender text,
-  fee_min int, fee_max int,
-  credential text not null check (credential in ('verified','not_verified','public_service')),
-  is_demo_listing boolean not null default true,
-  is_published boolean not null default true
-);
-alter table providers enable row level security;
-create policy "public read published providers" on providers for select using (is_published);
+## 2.6 Browser memory and bundled directory
+Person A implements `lib/store.ts` with an in-memory state object, defensive copies, and explicit reset. Do not use browser persistence, cookies, IndexedDB, accounts, or a remote database. Reloading the page clears personal state; say this clearly in consent copy. The fictional demo can be reloaded from `public/demo-user.json`.
 
-create table if not exists provider_applications (          -- stretch: "Join as a provider" form
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz default now(),
-  name text not null, kind text not null, city text, languages text[], modes text[],
-  fee_min int, fee_max int, registration_body text check (registration_body in ('RCI','NMC','Other')),
-  registration_number text, email text, phone text
-);
-alter table provider_applications enable row level security;
-create policy "anyone can apply" on provider_applications for insert with check (true);
-```
-`supabase/seed.sql` inserts the same rows as `data/providers.json`. **No user check-ins or profiles are ever stored in Supabase in the MVP.**
+Person B implements `lib/directory.ts` to filter `data/providers.json` by care level and city, always preserving national services. All API requests are stateless, responses use `Cache-Control: no-store`, and user content is never logged. The provider application endpoint validates its input and returns `{ok:false,degraded:true}`; it does not submit or save contact details.
 
 ---
 
@@ -335,7 +300,7 @@ All are POST with JSON in and JSON out, stateless, and log no content. On any fa
 | `/api/analyze-checkin` | `{ goodNote, hardNote, sleepHoursInput, signals: PersonalSignal[] }` | `{ features: CheckinFeatures }` |
 | `/api/learn` | `{ text, signals }` | `{ matchedExistingIds: string[], newCandidates: {id,text}[] }` (≤2) |
 | `/api/places` | `{ level: CareLevel, location: {lat,lng}\|null, city, radiusKm }` | `{ providers: Provider[], embedQuery: string, attribution: string }` (Google + national + curated, merged, deduped, with distance) |
-| `/api/providers` | `{ level?: CareLevel, city?: string }` | `{ providers: Provider[] }` (Supabase or JSON fallback) |
+| `/api/providers` | `{ level?: CareLevel, city?: string }` | `{ providers: Provider[] }` (bundled JSON directory) |
 | `/api/session-bridge` | `{ profile, checkins (≤30 days), inMyWords, whatIWantFromSupport, availability, language }` | `{ bridge: SessionBridge }` |
 | `/api/suggest` | `{ explanations, themes, helpfulActions }` | `{ ownActions: string[], cards: {card: ResourceCard, framing: string}[] }` |
 | `/api/provider-apply` (stretch) | provider application fields | `{ ok: boolean }` |
@@ -368,7 +333,7 @@ export function rankProviders(providers: Provider[], level: CareLevel, prefs: Pr
 # PART 5 — YOUR TASKS: PERSON A (Experience / Frontend)
 
 **You own:** every page in `app/` (except `app/api/*`), `components/*`, `lib/store.ts`, `lib/speech.ts`, `lib/api-client.ts`, the Render setup, and the T+0 scaffold.
-**You do NOT edit:** `lib/engine/*`, `lib/llm.ts`, `lib/prompts.ts`, `lib/safety.ts`, `lib/mock.ts`, `lib/supabase.ts`, `app/api/*`, `data/*`, `supabase/*`, `scripts/*`.
+**You do NOT edit:** `lib/engine/*`, `lib/safety.ts`, `lib/mock.ts`, `lib/directory.ts`, `app/api/*`, `data/*`, `scripts/*`.
 **Build against mocks** until the T+45/T+85 merges. Never block on Person B.
 
 ## 5.1 Design direction
@@ -377,11 +342,11 @@ export function rankProviders(providers: Provider[], level: CareLevel, prefs: Pr
 - Every screen shows the persistent header: brand name (from `BRAND`), nav (Check-in · Care Path · Find Help · Insights), and the red **"Need help now?"** button.
 
 ## 5.2 Files to build
-**`lib/store.ts`**: `load(): AppState`, `save(state)`, `reset()`, key `"mannsetu:v1"`. Wrap in try/catch and return empty state on failure. `loadDemo()` fetches `/demo-user.json`, then calls `replay()` from the engine and saves the result.
+**`lib/store.ts`**: `load(): AppState`, `save(state)`, `reset()` backed by a module-level in-memory object. Clone values on load/save, keep state across client-side navigation, clear it on reload, and never write browser persistence. Return empty state on failure. `loadDemo()` fetches `/demo-user.json`, then calls `replay()` from the engine and saves the result.
 
 **`lib/speech.ts`**: `startListening(lang, onPartial, onFinal, onError)` / `stop()` over `window.webkitSpeechRecognition` (`interimResults: true`, `continuous: false`). Expose `isSupported()`; if unsupported, hide the mic button.
 
-**`lib/api-client.ts`**: typed `post<T>(route, body)` plus one function per route in §4.1. On a network error, return the mock from `lib/mock.ts`.
+**`lib/api-client.ts`**: typed `post<T>(route, body)` plus one function per route in §4.1. On a network error, return the matching `MOCK_RESPONSES` entry from `lib/mock.ts`. For analyze-checkin, run `keywordSafety` locally and discard any mock evidence not present in the submitted notes; network failure must never suppress crisis detection.
 
 **`components/`**: `Header`, `CrisisModal` (hard-coded content from §1.5), `StateCard`, `ReasonChip` (quote + date), `ProviderCard`, `CredentialBadge`, `CareLevelCard`, `Chip`/`EditableChipList`, `ConsentBlock`.
 
@@ -411,7 +376,7 @@ export function rankProviders(providers: Provider[], level: CareLevel, prefs: Pr
    - [Generate] → `api.sessionBridge(...)` → render each section as editable text areas/lists. `whatsBeenHappening` items show date + quote chips.
    - Banner: "This is yours. Nothing is sent to anyone." Buttons [Copy call script] [Print / Save as PDF] (`window.print()`; add a `@media print` stylesheet that hides nav/buttons and prints a clean one-pager with the brand name and date).
 8. **Insights `app/insights/page.tsx`** (T+95, if time allows): a 30-day line chart (recharts) of `modelP` with dots coloured by `userLabel`; **"What MannSetu has learned about you"** list (signal text, source badge, count, active/pending, delete ✕ → update profile); "What matters most for you" (top 3 weights translated to words, e.g. `socialDrop` → "Going quiet with people"); [Delete all my data] (confirm → `reset()` → landing).
-9. **Join as provider `app/providers/join/page.tsx`** (stretch only): a form → `/api/provider-apply`. Text: "We verify RCI/NMC registration before showing a Verified badge."
+9. **Join as provider**: deferred. The endpoint intentionally returns `{ok:false,degraded:true}` and no application is saved; hide submission or clearly mark it unavailable.
 
 ## 5.4 Your timeline (T = minutes from start)
 | T | Task |
@@ -440,7 +405,7 @@ export function rankProviders(providers: Provider[], level: CareLevel, prefs: Pr
 - [ ] Find Help shows ranked cards with reasons, unknowns and correct badges; filters re-rank instantly.
 - [ ] Session Bridge generates, can be edited, and prints as a clean one-pager.
 - [ ] The crisis modal opens from every page and auto-opens on a crisis phrase.
-- [ ] Delete-all clears localStorage.
+- [ ] Delete-all clears browser memory.
 - [ ] Works at 375 px width; deployed Render URL works.
 
 ## 5.6 Demo script (3 min; you drive the UI)
@@ -449,6 +414,6 @@ export function rankProviders(providers: Provider[], level: CareLevel, prefs: Pr
 3. (30 s) Type the hero check-in → "Different from your usual" with her own quotes. No judgement, no label.
 4. (20 s) [I'm struggling] → Care Path: "4 of the last 7 days → a counsellor could help"; Tele-MANAS free.
 5. (35 s) Find Help near the venue → "Why this match", "Confirm by phone", "⚠ check RCI".
-6. (30 s) [Prepare for this] → Session Bridge + Tamil call script → edit → print. "Nothing leaves her phone unless she chooses."
-7. (15 s) Crisis phrase → hard-coded panel. "The AI can never switch this off."
+6. (30 s) [Prepare for this] → Session Bridge + Tamil call script → edit → print. "Nothing is sent to a provider automatically. Notes use only our transient rule-based API."
+7. (15 s) Crisis phrase → hard-coded panel. "The learning engine can never switch this off."
 8. (15 s) Business: free for people; colleges, employers and verified providers pay; no pay-to-rank, no data selling.

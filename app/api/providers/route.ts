@@ -1,6 +1,8 @@
 import { MOCK_RESPONSES } from "../../../lib/mock";
 import { requests } from "../_schemas";
-import { stub } from "../_response";
+import { json } from "../_response";
+import { getProvidersWithStatus } from "../../../lib/directory";
 export async function POST(req: Request): Promise<Response> {
-  return stub(req, requests.providers, MOCK_RESPONSES.providers);
+  try { const input = requests.providers.parse(await req.json()); return json(await getProvidersWithStatus(input.level, input.city)); }
+  catch { return json({ ...MOCK_RESPONSES.providers, degraded: true }); }
 }

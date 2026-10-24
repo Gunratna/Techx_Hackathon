@@ -1,0 +1,1166 @@
+{
+  "profile": {
+    "name": "Ananya (fictional demo user)",
+    "who5Raw": 13,
+    "badDayDescription": "I stop eating properly, stay up late and go quiet",
+    "helpfulActions": [
+      "walk on the terrace",
+      "call Amma",
+      "make a simple to-do list"
+    ],
+    "trustedPerson": {
+      "name": "Riya",
+      "relation": "friend"
+    },
+    "signals": [
+      {
+        "id": "skipped_meals",
+        "text": "skipping dinner",
+        "source": "survey",
+        "count": 0,
+        "active": true
+      },
+      {
+        "id": "late_nights",
+        "text": "sleeping after 2am",
+        "source": "survey",
+        "count": 0,
+        "active": true
+      },
+      {
+        "id": "ignoring_riya",
+        "text": "not replying to Riya",
+        "source": "survey",
+        "count": 0,
+        "active": true
+      }
+    ],
+    "prefs": {
+      "languages": [
+        "English",
+        "Tamil"
+      ],
+      "budgetPerSession": 1500,
+      "mode": "either",
+      "providerGender": "any",
+      "readiness": "talk_to_someone",
+      "city": "Chennai",
+      "location": null
+    },
+    "createdAt": "2026-09-24"
+  },
+  "model": null,
+  "checkins": [
+    {
+      "id": "96d989e2-73c1-5711-8eed-7c8a3b4e6f7c",
+      "date": "2026-09-24",
+      "goodNote": "Dinner with Riya at the dosa place. Slept by 11.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": null,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0.3,
+        "sleepHours": null,
+        "themes": [
+          "food",
+          "sleep",
+          "friends"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "social",
+            "quote": "Dinner with Riya"
+          },
+          {
+            "feature": "theme",
+            "quote": "Dinner"
+          },
+          {
+            "feature": "theme",
+            "quote": "Slept"
+          },
+          {
+            "feature": "theme",
+            "quote": "Riya"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "d46a4b8b-cdc9-58f8-9fa9-bc572278edb4",
+      "date": "2026-09-25",
+      "goodNote": "Walked on the terrace after work, called Amma.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": null,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0.3,
+        "sleepHours": null,
+        "themes": [
+          "work",
+          "family",
+          "rest"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "social",
+            "quote": "called Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "Walk"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "bb0b50b1-6249-521b-a811-b467a91ab1f4",
+      "date": "2026-09-26",
+      "goodNote": "Walked on the terrace after work, called Amma.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": 7,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0.3,
+        "sleepHours": 7,
+        "themes": [
+          "work",
+          "family",
+          "rest"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "social",
+            "quote": "called Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "Walk"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "75edf1b5-9f9c-5513-b81b-f977bcb72d12",
+      "date": "2026-09-27",
+      "goodNote": "Made a to-do list and actually did it.",
+      "hardNote": "Bit tired from meetings.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 7,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0,
+        "sleepHours": 7,
+        "themes": [
+          "work"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "theme",
+            "quote": "meetings"
+          },
+          {
+            "feature": "valence",
+            "quote": "actually did it"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "e18c4723-00f4-550b-a947-77e26d36c8f0",
+      "date": "2026-09-28",
+      "goodNote": "Walked on the terrace after work, called Amma.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 7,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0.3,
+        "sleepHours": 7,
+        "themes": [
+          "work",
+          "family",
+          "rest"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "social",
+            "quote": "called Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "Walk"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "70cbd757-2afe-599e-a8e4-58d691aeb28c",
+      "date": "2026-09-29",
+      "goodNote": "Work was okay I guess.",
+      "hardNote": "Skipped dinner, just had chips. Stayed up till 2 on reels.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 4,
+        "themes": [
+          "food",
+          "sleep",
+          "work"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals",
+          "late_nights"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Skipped dinner"
+          },
+          {
+            "feature": "signal",
+            "quote": "Stayed up till 2"
+          },
+          {
+            "feature": "theme",
+            "quote": "dinner"
+          },
+          {
+            "feature": "theme",
+            "quote": "Stayed up"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "d55587b7-1c46-52ac-9a30-286d05a9bc01",
+      "date": "2026-09-30",
+      "goodNote": "Got the build to pass.",
+      "hardNote": "Slept at 3, woke at 7. Ate only snacks.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 5,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 5,
+        "themes": [
+          "food",
+          "sleep",
+          "work"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals",
+          "late_nights"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ate only snacks"
+          },
+          {
+            "feature": "signal",
+            "quote": "Slept at 3"
+          },
+          {
+            "feature": "sleep",
+            "quote": "Slept at 3, woke at 7"
+          },
+          {
+            "feature": "theme",
+            "quote": "snacks"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "667885f2-47ae-595a-aee2-a458a67b26be",
+      "date": "2026-10-01",
+      "goodNote": "Work was okay I guess.",
+      "hardNote": "Skipped dinner, just had chips. Stayed up till 2 on reels.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 4,
+        "themes": [
+          "food",
+          "sleep",
+          "work"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals",
+          "late_nights"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Skipped dinner"
+          },
+          {
+            "feature": "signal",
+            "quote": "Stayed up till 2"
+          },
+          {
+            "feature": "theme",
+            "quote": "dinner"
+          },
+          {
+            "feature": "theme",
+            "quote": "Stayed up"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "0fb2d9f3-09b4-5d80-b9b7-ce7fbcffa7e8",
+      "date": "2026-10-02",
+      "goodNote": "Amma called.",
+      "hardNote": "Didn't eat properly again. Just lay there scrolling.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 4,
+        "themes": [
+          "food",
+          "family"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't eat properly"
+          },
+          {
+            "feature": "theme",
+            "quote": "eat"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "525a9c30-cb94-5808-b193-ff7f0f65d6f3",
+      "date": "2026-10-03",
+      "goodNote": "Amma called.",
+      "hardNote": "Didn't eat properly again. Just lay there scrolling.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": null,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": null,
+        "themes": [
+          "food",
+          "family"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't eat properly"
+          },
+          {
+            "feature": "theme",
+            "quote": "eat"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "58671ba9-07e2-5c23-884d-2fcec35acaef",
+      "date": "2026-10-04",
+      "goodNote": "",
+      "hardNote": "Ignored everyone's messages. Felt useless at work.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 5,
+      "features": {
+        "valence": -0.4,
+        "energy": -0.3,
+        "social": -0.2,
+        "sleepHours": 5,
+        "themes": [
+          "work",
+          "self_worth"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "social",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "useless"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "de0b0aea-a085-593d-b551-cda19d17e541",
+      "date": "2026-10-05",
+      "goodNote": "Amma called.",
+      "hardNote": "Didn't eat properly again. Just lay there scrolling.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 4,
+        "themes": [
+          "food",
+          "family"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't eat properly"
+          },
+          {
+            "feature": "theme",
+            "quote": "eat"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "f472ff0c-6bfb-5249-8c81-64386aa2ecb0",
+      "date": "2026-10-06",
+      "goodNote": "",
+      "hardNote": "Ignored everyone's messages. Felt useless at work.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 5,
+      "features": {
+        "valence": -0.4,
+        "energy": -0.3,
+        "social": -0.2,
+        "sleepHours": 5,
+        "themes": [
+          "work",
+          "self_worth"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "social",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "useless"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "d47df812-bfd6-565a-8b69-61911b0e75ba",
+      "date": "2026-10-07",
+      "goodNote": "Walked on the terrace after work, called Amma.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 7,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0.3,
+        "sleepHours": 7,
+        "themes": [
+          "work",
+          "family",
+          "rest"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "social",
+            "quote": "called Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "Walk"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "2d74f65f-f33b-5ad3-9cc6-b6bfe0959966",
+      "date": "2026-10-08",
+      "goodNote": "Finished the sprint ticket early, cricket in the evening.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 7,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0,
+        "sleepHours": 7,
+        "themes": [
+          "work"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "theme",
+            "quote": "sprint"
+          },
+          {
+            "feature": "valence",
+            "quote": "Finished the sprint"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "bcfef642-c120-571e-af68-6cfd3edec085",
+      "date": "2026-10-10",
+      "goodNote": "Walked on the terrace after work, called Amma.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 8,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0.3,
+        "sleepHours": 8,
+        "themes": [
+          "work",
+          "family",
+          "rest"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "social",
+            "quote": "called Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          },
+          {
+            "feature": "theme",
+            "quote": "Walk"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "08b4ec8b-1e54-57d3-9f22-9f0e4024ee1d",
+      "date": "2026-10-11",
+      "goodNote": "Got the build to pass.",
+      "hardNote": "Slept at 3, woke at 7. Ate only snacks.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 5,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 5,
+        "themes": [
+          "food",
+          "sleep",
+          "work"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals",
+          "late_nights"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ate only snacks"
+          },
+          {
+            "feature": "signal",
+            "quote": "Slept at 3"
+          },
+          {
+            "feature": "sleep",
+            "quote": "Slept at 3, woke at 7"
+          },
+          {
+            "feature": "theme",
+            "quote": "snacks"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "f595dca1-2dad-5901-aba4-9dad648c07f2",
+      "date": "2026-10-12",
+      "goodNote": "Nothing much.",
+      "hardNote": "Didn't reply to Riya again.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": -0.2,
+        "sleepHours": 4,
+        "themes": [
+          "friends"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't reply to Riya"
+          },
+          {
+            "feature": "social",
+            "quote": "Didn't reply to Riya"
+          },
+          {
+            "feature": "theme",
+            "quote": "Riya"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "f5b4a60c-7001-5ad4-aebc-788db80e39cf",
+      "date": "2026-10-13",
+      "goodNote": "Nothing much.",
+      "hardNote": "Didn't reply to Riya again.",
+      "inputMode": "text",
+      "userLabel": null,
+      "sleepHoursInput": 5,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": -0.2,
+        "sleepHours": 5,
+        "themes": [
+          "friends"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't reply to Riya"
+          },
+          {
+            "feature": "social",
+            "quote": "Didn't reply to Riya"
+          },
+          {
+            "feature": "theme",
+            "quote": "Riya"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "155c83a8-135c-5996-bef2-8bfbf6535583",
+      "date": "2026-10-14",
+      "goodNote": "Amma called.",
+      "hardNote": "Didn't eat properly again. Just lay there scrolling.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 5,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 5,
+        "themes": [
+          "food",
+          "family"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't eat properly"
+          },
+          {
+            "feature": "theme",
+            "quote": "eat"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "de5498b3-7ff8-51e4-a5e1-96cd64ce7226",
+      "date": "2026-10-15",
+      "goodNote": "Amma called.",
+      "hardNote": "Didn't eat properly again. Just lay there scrolling.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": 0,
+        "energy": 0,
+        "social": 0,
+        "sleepHours": 4,
+        "themes": [
+          "food",
+          "family"
+        ],
+        "matchedSignalIds": [
+          "skipped_meals"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Didn't eat properly"
+          },
+          {
+            "feature": "theme",
+            "quote": "eat"
+          },
+          {
+            "feature": "theme",
+            "quote": "Amma"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "7fc942e1-b2ce-5e17-b97c-d03c9e0b587b",
+      "date": "2026-10-16",
+      "goodNote": "",
+      "hardNote": "Ignored everyone's messages. Felt useless at work.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": -0.4,
+        "energy": -0.3,
+        "social": -0.2,
+        "sleepHours": 4,
+        "themes": [
+          "work",
+          "self_worth"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "social",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "useless"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "ddeb7e49-e3a6-5c4a-b018-ff66bb40bcb7",
+      "date": "2026-10-17",
+      "goodNote": "",
+      "hardNote": "Ignored everyone's messages. Felt useless at work.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": -0.4,
+        "energy": -0.3,
+        "social": -0.2,
+        "sleepHours": 4,
+        "themes": [
+          "work",
+          "self_worth"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "social",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "useless"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "c273afcc-ab90-552b-b0d3-04892393a95f",
+      "date": "2026-10-18",
+      "goodNote": "",
+      "hardNote": "Ignored everyone's messages. Felt useless at work.",
+      "inputMode": "text",
+      "userLabel": "bad",
+      "sleepHoursInput": 4,
+      "features": {
+        "valence": -0.4,
+        "energy": -0.3,
+        "social": -0.2,
+        "sleepHours": 4,
+        "themes": [
+          "work",
+          "self_worth"
+        ],
+        "matchedSignalIds": [
+          "ignoring_riya"
+        ],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "signal",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "social",
+            "quote": "Ignored everyone's messages"
+          },
+          {
+            "feature": "theme",
+            "quote": "work"
+          },
+          {
+            "feature": "theme",
+            "quote": "useless"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "f95f99f0-97d1-5462-9c72-910495ed6005",
+      "date": "2026-10-19",
+      "goodNote": "Made a to-do list and actually did it.",
+      "hardNote": "Bit tired from meetings.",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": 7,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0,
+        "sleepHours": 7,
+        "themes": [
+          "work"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "theme",
+            "quote": "meetings"
+          },
+          {
+            "feature": "valence",
+            "quote": "actually did it"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "8ea24cc1-34da-5fe8-b5ed-045892f0ff38",
+      "date": "2026-10-21",
+      "goodNote": "Finished the sprint ticket early, cricket in the evening.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": null,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0,
+        "sleepHours": null,
+        "themes": [
+          "work"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "theme",
+            "quote": "sprint"
+          },
+          {
+            "feature": "valence",
+            "quote": "Finished the sprint"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "783b6df7-7807-505d-9d5d-9663dd51a27a",
+      "date": "2026-10-22",
+      "goodNote": "Made a to-do list and actually did it.",
+      "hardNote": "Bit tired from meetings.",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": 8,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0,
+        "sleepHours": 8,
+        "themes": [
+          "work"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "theme",
+            "quote": "meetings"
+          },
+          {
+            "feature": "valence",
+            "quote": "actually did it"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    },
+    {
+      "id": "0bb5ad08-411d-5f1c-8121-bae9e0db8d82",
+      "date": "2026-10-23",
+      "goodNote": "Finished the sprint ticket early, cricket in the evening.",
+      "hardNote": "",
+      "inputMode": "text",
+      "userLabel": "good",
+      "sleepHoursInput": null,
+      "features": {
+        "valence": 0.3,
+        "energy": 0.2,
+        "social": 0,
+        "sleepHours": null,
+        "themes": [
+          "work"
+        ],
+        "matchedSignalIds": [],
+        "safety": "none",
+        "evidence": [
+          {
+            "feature": "theme",
+            "quote": "sprint"
+          },
+          {
+            "feature": "valence",
+            "quote": "Finished the sprint"
+          }
+        ]
+      },
+      "modelP": null,
+      "driftFeedback": null
+    }
+  ],
+  "consentAt": "2026-09-24"
+}
