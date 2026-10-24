@@ -1,0 +1,5 @@
+import { Icon } from "./Icon";
+export function Chip({ children }: { children: React.ReactNode }) { return <span className="chip">{children}</span>; }
+export function EditableChipList({ label, values, onChange, max = 20 }: { label: string; values: string[]; onChange: (values: string[]) => void; max?: number }) {
+  return <fieldset className="field"><legend className="field-label" style={{ marginBottom: 12 }}>{label}</legend>{values.map((value, i) => <div key={i} className="editable-row"><input aria-label={`${label} ${i + 1}`} maxLength={300} value={value} onChange={e => onChange(values.map((v, index) => index === i ? e.target.value : v))} /><button type="button" className="icon-button" aria-label={`Remove ${label.toLowerCase()} ${i + 1}`} onClick={() => onChange(values.filter((_, index) => index !== i))}><Icon name="close" size={15} /></button></div>)}{values.length < max && <button type="button" className="button secondary" style={{ justifySelf: "start" }} onClick={() => onChange([...values, ""])}><Icon name="plus" size={15} />Add another</button>}</fieldset>;
+}
