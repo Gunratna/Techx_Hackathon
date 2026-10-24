@@ -119,6 +119,8 @@ dialog::backdrop { background: #1d2f2a99; backdrop-filter: blur(3px); }
 .map-frame { width: 100%; height: 320px; border: 1px solid var(--line); border-radius: 12px; margin-top: 24px; }
 .print-only { display: none; }
 .bridge-event textarea { min-height: 85px; }
+.signal-row { padding: 14px 0; border-top: 1px solid var(--line); }
+.signal-row .field { margin-bottom: 0; }
 @page { size: A4; margin: 12mm; }
 @media print {
   html, body { background: white !important; color: #202a24 !important; font-size: 9pt !important; }
