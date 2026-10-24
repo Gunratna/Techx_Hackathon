@@ -1,0 +1,14 @@
+import { useEffect } from "react";
+import type { Checkin, EngineResult } from "@/lib/types";
+import { containsBannedLanguage } from "@/lib/safety";
+import { ReasonChip } from "./ReasonChip";
+import { Icon } from "./Icon";
+export function StateCard({ result, checkins, onFeedback, openCrisis, busy, feedback }: { result: EngineResult; checkins: Checkin[]; onFeedback: (y: 0 | 1) => void; openCrisis: () => void; busy: boolean; feedback: Checkin["driftFeedback"] }) {
+  useEffect(() => { if (result.state === "crisis") openCrisis(); }, [result.state, openCrisis]);
+  const explanations = result.explanations.map(e => ({ ...e, quotes: e.quotes.filter(q => q.trim() && checkins.some(c => `${c.goodNote}\n${c.hardNote}`.includes(q))) })).filter(e => e.quotes.length).slice(0, 3);
+  // The current engine stub has no evidence. Never present its fixed result as
+  // a real personal comparison; show the learning state until evidence exists.
+  const state = result.state === "drift" && !explanations.length ? "learning" : result.state;
+  const title = { learning: "Still learning your pattern", steady: "As usual, in your own way", drift: "Different from your usual", crisis: "Help is here, right now" }[state];
+  return <section className="panel soft-panel state-card" aria-labelledby="state-heading"><div className="actions" style={{ justifyContent: "space-between" }}><p className="eyebrow" style={{ marginBottom: 12 }}>A moment to notice</p><Icon name={state === "steady" ? "sun" : "leaf"} size={22} /></div><h2 id="state-heading" className="serif" style={{ fontSize: 30, marginBottom: 12 }}>{title}</h2>{state === "learning" && <p className="muted">A few more days, a little more context. Your note is saved. Personal comparisons will appear when they can be explained in your own words.</p>}{state === "steady" && <p className="muted">Today looks close to your usual. There’s still room for support, whenever you’d like it.</p>}{state === "drift" && <><p className="muted">A few things look different from your usual. Here’s what stood out in your notes.</p>{explanations.map(e => <ReasonChip key={e.feature} message={containsBannedLanguage(e.message) ? "A personal sign appeared in your notes." : e.message} quotes={e.quotes} checkins={checkins} />)}</>}{state === "crisis" ? <button type="button" className="crisis-button" onClick={openCrisis}>Open immediate support</button> : <div className="actions" style={{ marginTop: 22 }}><button type="button" className="button" disabled={busy} onClick={() => onFeedback(1)}>I’m struggling<Icon name="arrow" size={15} /></button><button type="button" className="button secondary" disabled={busy} onClick={() => onFeedback(0)}>I’m fine, thanks</button></div>}{feedback && <p className="helper" role="status" style={{ marginTop: 14, marginBottom: 0 }}>Thanks for telling us. Your choice has been saved.</p>}</section>;
+}
