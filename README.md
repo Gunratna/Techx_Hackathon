@@ -7,7 +7,7 @@ A personal wellbeing care navigator for adults in India: notice changes from you
 1. Install Node.js 20 or newer and run `npm ci` after the Next.js scaffold is merged.
 2. Copy `.env.example` to `.env.local` and add service keys locally. Never commit `.env.local`.
 3. Run `npm run dev`; use `npm run build` before pushing.
-4. Missing service keys use degraded fallback responses. Google Places results are never persisted.
+4. AI processing is disabled: check-in analysis, profile extraction, learning, suggestions, and briefs use inspectable rules/templates with `degraded: true`. No user content goes to an AI provider; an AI key is unnecessary. Google Places results are never persisted.
 5. Deploy the main branch using `render.yaml`; set secrets in Render. Rebuild after changing public environment variables.
 
 ## Git workflow

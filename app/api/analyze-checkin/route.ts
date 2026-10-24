@@ -2,6 +2,7 @@ import { keywordSafety } from "../../../lib/safety";
 import type { CheckinFeatures } from "../../../lib/types";
 import { requests } from "../_schemas";
 import { json } from "../_response";
+import { localFeatures } from "./_local";
 
 export async function POST(req: Request): Promise<Response> {
   let raw: unknown;
@@ -15,5 +16,7 @@ export async function POST(req: Request): Promise<Response> {
     themes: [], matchedSignalIds: parsed.success ? parsed.data.signals.filter(s => s.text.trim() && `${good}\n${hard}`.toLowerCase().includes(s.text.toLowerCase())).map(s => s.id) : [],
     safety: keywordSafety(`${good}\n${hard}`), evidence: [],
   };
-  return json({ features, degraded: true });
+  if (!parsed.success) return json({ features, degraded: true });
+  try { return json({ features: localFeatures(good, hard, parsed.data.sleepHoursInput, parsed.data.signals), degraded: true }); }
+  catch { return json({ features, degraded: true }); }
 }

@@ -1,9 +1,64 @@
 import assert from "node:assert/strict";
+import { readFileSync, existsSync } from "node:fs";
+import { performance } from "node:perf_hooks";
 import { keywordSafety } from "../safety";
-import { defaultModel } from "./index";
+import { defaultModel, evaluateCheckin, applyFeedback, carePath, mergeLearnedSignals, rankProviders, replay } from "./index";
+import { MOCK_PROFILE, MOCK_PROVIDERS } from "../mock";
+import { localFeatures } from "../../app/api/analyze-checkin/_local";
+import type { AppState, Checkin } from "../types";
+import { vector } from "./features";
 assert.equal(keywordSafety("i want to end my life"), "urgent");
 assert.equal(keywordSafety("ordinary day"), "none");
+for (const phrase of ["MARNA   HAI", "saaga poren", "self-harm", "want to die"]) assert.equal(keywordSafety(phrase), "urgent");
 const first = defaultModel();
 first.weights.bias = 0;
 assert.equal(defaultModel().weights.bias, -2, "Models must not share mutable weights");
-console.log("Engine stub and safety checks passed.");
+function checkin(date: string, good: string, hard = "", sleep: number | null = null): Checkin {
+  return { id: date, date, goodNote: good, hardNote: hard, inputMode: "text", userLabel: null, sleepHoursInput: sleep, features: localFeatures(good, hard, sleep, MOCK_PROFILE.signals), modelP: null, driftFeedback: null };
+}
+const baseline = Array.from({ length: 14 }, (_, i) => checkin(`2026-10-${String(i + 1).padStart(2, "0")}`, "Went for a run, dinner with Riya, slept 8 hours"));
+const state: AppState = { profile: structuredClone(MOCK_PROFILE), model: defaultModel(), checkins: baseline, consentAt: null };
+const hero = checkin("2026-10-15", "Work was fine.", "Skipped dinner again, stayed up till 3, didn't reply to Riya.");
+const before = JSON.stringify(state), result = evaluateCheckin(state, hero);
+assert.equal(result.state, "drift");
+assert.equal(result.explanations[0].feature, "signalCount3d");
+assert.equal(JSON.stringify(state), before, "Evaluation must not mutate inputs");
+assert.equal(evaluateCheckin(state, checkin("2026-10-15", "Went for a run, dinner with Riya, slept 8 hours")).state, "steady");
+for (const e of hero.features!.evidence) assert.ok(hero.goodNote.includes(e.quote) || hero.hardNote.includes(e.quote));
+for (const e of result.explanations) for (const quote of e.quotes) assert.ok([...baseline, hero].some(c => c.goodNote.includes(quote) || c.hardNote.includes(quote)));
+let model = defaultModel(), probability = result.p;
+for (let i = 0; i < 3; i++) { model = applyFeedback(model, state, hero, 0); const next = evaluateCheckin({ ...state, model }, hero).p; assert.ok(next < probability); probability = next; }
+assert.equal(carePath({ ...result, driftDaysLast7: 4 }, MOCK_PROFILE).recommended, 3);
+assert.equal(carePath({ ...result, driftDaysLast7: 6 }, MOCK_PROFILE).recommended, 4);
+assert.equal(carePath({ ...result, state: "crisis" }, MOCK_PROFILE).recommended, 5);
+const shortNights = baseline.slice(-6).map(c => ({ ...c, sleepHoursInput: 4 }));
+assert.equal(carePath(evaluateCheckin({ ...state, checkins: shortNights }, hero), MOCK_PROFILE).recommended, 4);
+assert.deepEqual(evaluateCheckin({ ...state, checkins: [...baseline, checkin("2026-11-01", "", "Everything feels heavy.", 3)] }, hero), result, "Future notes must not affect an earlier result");
+const inactive = { ...MOCK_PROFILE, signals: MOCK_PROFILE.signals.map(s => ({ ...s, active: false })) };
+assert.equal(vector({ ...state, profile: inactive }, hero).signalCount3d, 0);
+assert.equal(vector({ ...state, checkins: [checkin("2026-10-01", "Work was fine.")] }, hero).gapDays, 3);
+let learned = mergeLearnedSignals(MOCK_PROFILE, [], [{ id: "cancelled_plans", text: "cancelled plans" }]);
+assert.equal(learned.signals.at(-1)!.active, false);
+learned = mergeLearnedSignals(learned, ["cancelled_plans"], []);
+assert.equal(learned.signals.at(-1)!.active, true);
+const ranking = rankProviders(MOCK_PROVIDERS, 3, MOCK_PROFILE.prefs);
+assert.equal(ranking[0].provider.id, "tele_manas");
+assert.ok(ranking.find(p => p.provider.id === "demo_unverified")!.unknowns.includes("Session fee"));
+const cold = evaluateCheckin({ ...state, checkins: [] }, hero);
+assert.equal(cold.state, "learning");
+assert.equal(evaluateCheckin({ ...state, checkins: [] }, checkin("2026-10-15", "", "i want to end my life")).state, "crisis");
+const replayed = replay({ ...state, checkins: baseline.map(c => ({ ...c, userLabel: "good" })) });
+assert.equal(replayed.model.nLabels, 14);
+assert.equal(Object.keys(replayed.results).length, 14);
+if (existsSync("public/demo-user.json")) {
+  const demo = JSON.parse(readFileSync("public/demo-user.json", "utf8")) as AppState;
+  const start = performance.now(); const loaded = replay(demo); const ms = performance.now() - start;
+  assert.ok(ms < 100, `Replay took ${ms} ms`);
+  const last = demo.checkins.map(c => c.date).sort().at(-1)!;
+  const nextDate = new Date(Date.parse(last) + 86400000).toISOString().slice(0, 10);
+  const demoHero = evaluateCheckin({ ...demo, profile: loaded.profile, model: loaded.model }, { ...hero, id: "hero", date: nextDate });
+  assert.equal(demoHero.state, "drift");
+  assert.equal(demoHero.explanations[0].feature, "signalCount3d");
+  console.log(`Demo replay: ${ms.toFixed(1)} ms; hero checks passed.`);
+}
+console.log("Engine, local extraction, safety, feedback, care routing, fit, and temporal isolation checks passed.");

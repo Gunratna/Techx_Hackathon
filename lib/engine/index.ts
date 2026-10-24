@@ -1,23 +1,22 @@
-import type { AppState, CareLevel, CarePath, Checkin, EngineResult, Preferences, Profile, Provider, ProviderMatch, UserModel } from "../types";
-import { MOCK_MODEL, MOCK_PROFILE } from "../mock";
-export function defaultModel(): UserModel { return { ...MOCK_MODEL, weights: { ...MOCK_MODEL.weights } }; }
-export function evaluateCheckin(state: AppState, checkin: Checkin): EngineResult {
-  void state;
-  return { p: .75, state: checkin.features?.safety === "urgent" ? "crisis" : "drift", driftDaysLast7: 4, explanations: [] };
-}
-export function applyFeedback(model: UserModel, state: AppState, checkin: Checkin, y: 0 | 1): UserModel {
-  void state; void y;
-  return { ...model, weights: { ...model.weights }, nLabels: model.nLabels + 1, updatedAt: checkin.date };
-}
-export function mergeLearnedSignals(profile: Profile, matchedIds: string[], candidates: {id:string;text:string}[]): Profile {
-  void matchedIds; void candidates; return { ...profile, signals: profile.signals.map(s => ({ ...s })) };
-}
+import type { AppState, EngineResult, Profile, UserModel } from "../types";
+import { defaultModel, applyFeedback, mergeLearnedSignals } from "./model";
+import { evaluateCheckin } from "./nudge";
+export { defaultModel, applyFeedback, mergeLearnedSignals, evaluateCheckin };
+export { carePath } from "./care-router";
+export { rankProviders } from "./fit";
 export function replay(state: AppState): { model: UserModel; profile: Profile; results: Record<string, EngineResult> } {
-  return { model: state.model ?? defaultModel(), profile: state.profile ?? structuredClone(MOCK_PROFILE), results: Object.fromEntries(state.checkins.map(c => [c.id, evaluateCheckin(state, c)])) };
-}
-export function carePath(result: EngineResult, profile: Profile): CarePath {
-  void profile; return result.state === "crisis" ? { recommended: 5, alsoOffer: [2], reasons: ["Help is available right now."] } : { recommended: 3, alsoOffer: [2, 1], reasons: [`Different from your usual on ${result.driftDaysLast7} of the last 7 days`] };
-}
-export function rankProviders(providers: Provider[], level: CareLevel, prefs: Preferences): ProviderMatch[] {
-  void level; void prefs; return providers.map(provider => ({ provider, score: 0, reasons: [], unknowns: ["Session fee", "Languages they speak"] }));
+  if (!state.profile) throw new Error("A profile is required to replay check-ins");
+  let profile = { ...state.profile, signals: state.profile.signals.map(s => ({ ...s })) };
+  let model = state.model ? { ...state.model, weights: { ...state.model.weights } } : defaultModel();
+  const results: Record<string, EngineResult> = {}, checkins = [...new Map(state.checkins.map(c => [c.date, c])).values()].sort((a, b) => a.date.localeCompare(b.date));
+  const past: AppState["checkins"] = [];
+  for (const checkin of checkins) {
+    const current: AppState = { ...state, profile, model, checkins: past };
+    const result = evaluateCheckin(current, checkin); results[checkin.id] = result;
+    const feedback = checkin.driftFeedback === "struggling" ? 1 : checkin.driftFeedback === "fine" ? 0 : checkin.userLabel === "bad" ? 1 : checkin.userLabel === "good" ? 0 : null;
+    if (feedback !== null) model = applyFeedback(model, current, checkin, feedback);
+    if (checkin.userLabel === "bad") profile = mergeLearnedSignals(profile, checkin.features?.matchedSignalIds ?? [], []);
+    past.push({ ...checkin, modelP: result.p });
+  }
+  return { profile, model, results };
 }
